@@ -13,7 +13,10 @@ chrome://flags/#enable-experimental-web-platform-features
 
 ## Microbit の設定
 
-1. 拡張機能で Bluetooth を追加します
+1. 拡張機能で Bluetooth を追加します]
+
+![AddBluetooth](https://github.com/timelessedu/iot-lab/blob/master/figs/add-bluetooth.png)
+
 2. プロジェクトの設定で "No Pairing Required: Anyone can connect via Bluetooth.　"を設定します
 
 ![Bluetooth](https://github.com/timelessedu/iot-lab/blob/master/figs/bluetooth-setting.png)
@@ -33,13 +36,15 @@ chrome://flags/#enable-experimental-web-platform-features
 
 2. ZIPファイルを開き、index.html のファイルを Chrome で開きます
 
+![index](https://github.com/timelessedu/iot-lab/blob/master/figs/start.png)
+
 
 ## 使い方
 
 1. Microbit に電源を入れると、ハートマークが表示されます。この状態でサイトの［接続］ボタンを押すと、Bluetooth のペアリングの画面が表示されます。
 
-![Microbit](https://github.com/timelessedu/iot-lab/blob/master/figs/win-connect.png)
+![connect](https://github.com/timelessedu/iot-lab/blob/master/figs/win-connect.png)
 
 2. 接続するとmicrobitの向きによって画面の色が変わります。また、Aボタンを押すとライト（初期設定は1番）をオンオフできます。Bボタンを押すと画面の色に近い色のランプに色が変わります。
 
-![Microbit](https://github.com/timelessedu/iot-lab/blob/master/figs/view.png)
+![exec](https://github.com/timelessedu/iot-lab/blob/master/figs/view.png)
