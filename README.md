@@ -12,3 +12,12 @@ chrome://flags/#enable-experimental-web-platform-features
 
 
 ## Microbit の設定
+
+1.　拡張機能で Bluetooth を追加します
+2.　プロジェクトの設定で "No Pairing Required: Anyone can connect via Bluetooth.　"を設定します
+
+![Bluetooth](https://github.com/timelessedu/iot-lab/blob/master/figs/bluetooth-setting.png)
+
+3.　プログラムを作成します。
+
+![Microbit](https://github.com/timelessedu/iot-lab/blob/master/figs/program.png)
