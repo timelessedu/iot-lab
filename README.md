@@ -1,6 +1,6 @@
 # IoT実験室用 Microbit 接続プログラム
 
-## Google Chormeの設定
+## Google Chromeの設定
 
 1.　Google Chrome で下記をアドレスバーに入力してください。
 

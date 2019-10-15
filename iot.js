@@ -105,7 +105,7 @@ function connect()
 		filters: [{
 			namePrefix: 'BBC micro:bit',
 		}],
-		//optionalServices: [ACCELEROMETER_SERVICE_UUID, BUTTON_SERVICE_UUID]
+		optionalServices: [ACCELEROMETER_SERVICE_UUID, BUTTON_SERVICE_UUID]
 	})
 	// デバイス接続する
 	.then(device => {
