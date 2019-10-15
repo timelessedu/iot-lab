@@ -144,7 +144,7 @@ function connect()
 		drawSensor();
 	})
 	.catch(error => {
-		console.log(error.name);
+		showModal(error);
 	});
 }
 

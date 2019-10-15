@@ -8,7 +8,7 @@ chrome://flags/#enable-experimental-web-platform-features
 
 2.　Chrome の設定で Experimental Web Platform features を Enabled に変更してください
 
-![Chrome](http://timelessedu.github.io/iot-lab/figs/chrome.png)
+![Chrome](http://github.com/timelessedu/iot-lab/figs/chrome.png)
 
 
 ## Microbit の設定
