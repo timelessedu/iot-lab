@@ -62,7 +62,8 @@ function sendCommand(param)
       $('.sensor').html(xhr.responseText);
     }
   };
-  xhr.send();
+  var json = JSON.stringify(makeCommand(param));
+  xhr.send(json);
 }
 
 /* -----------------------------------------------
@@ -166,12 +167,31 @@ function disconnect()
 }
 
 /* -----------------------------------------------
+ * RGBの1バイトデータに変換
+----------------------------------------------- */
+function convByte(val)
+{
+  return parseInt(val/8 + 128)
+}
+
+
+/* -----------------------------------------------
  * 加速度センサの値を0から255の数値にマップする
 ----------------------------------------------- */
 function conv(val)
 {
-  return ('00' + parseInt(val/8 + 128).toString(16).toUpperCase()).slice(-2)
+  return ('00' + convByte(val).toString(16).toUpperCase()).slice(-2)
 }
+
+/* -----------------------------------------------
+ * コマンド用のJSONデータの作成
+----------------------------------------------- */
+function makeCommand(on)
+{
+  data = {"on": on, "rgb": [convByte(accelX), convByte(accelY), convByte(accelZ)]}
+  return data
+}
+
 
 /* -----------------------------------------------
  * 加速度センサの値が変化したら呼び出される
@@ -206,10 +226,10 @@ function changeABtnEvent(event) {
   }
 
   if (buttonA) {
-    sendCommand("on=true")
+    sendCommand(true)
     $('#buttonA').html("<p>オン</p>");
   } else {
-    sendCommand("on=false")
+    sendCommand(false)
     $('#buttonA').html("<p>オフ</p>");
   }
 
@@ -218,11 +238,11 @@ function changeABtnEvent(event) {
 function changeBBtnEvent(evnet) {
   var value = event.currentTarget.value.getInt8(0);
   if (value) {
-    var x = parseInt(accelX/8 + 128).toString()
-    var y = parseInt(accelY/8 + 128).toString()
-    var z = parseInt(accelZ/8 + 128).toString()
+    var x = convByte(accelX).toString()
+    var y = convByte(accelY).toString()
+    var z = convByte(accelZ).toString()
 
-    sendCommand("rgb=[" + x + ',' + y + ',' + z + ']')
+    sendCommand(true)
     $('#buttonB').html("<p>色を変更</p>");
   } else {
     $('#buttonB').html("<p></p>");
