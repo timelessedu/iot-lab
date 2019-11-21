@@ -21,11 +21,11 @@ chrome://flags/#enable-experimental-web-platform-features
 
 ![Bluetooth](https://github.com/timelessedu/iot-lab/blob/master/figs/bluetooth-setting.png)
 
-3. プログラムを作成します。
+3. プログラムを作成します。「Bluetooth UART 文字列を書き出す」の番号は電球番号の下二桁を書いてください。
 
 ![Microbit](https://github.com/timelessedu/iot-lab/blob/master/figs/program.png)
 
-4. Microbit にプログラムを書き込みます
+4. Microbit にプログラムを書き込みます。
 
 ## HTMLファイルを準備
 
@@ -45,6 +45,6 @@ chrome://flags/#enable-experimental-web-platform-features
 
 ![connect](https://github.com/timelessedu/iot-lab/blob/master/figs/win-connect.png)
 
-2. 接続するとmicrobitの向きによって画面の色が変わります。また、Aボタンを押すとライト（初期設定は1番）をオンオフできます。Bボタンを押すと画面の色に近い色のランプに色が変わります。
+2. 接続するとmicrobitの向きによって画面の色が変わります。Micro:bit をふると電球番号が設定されます。また、Aボタンを押すとライト（初期設定は1番）をオンオフできます。Bボタンを押すと画面の色に近い色のランプに色が変わります。
 
 ![exec](https://github.com/timelessedu/iot-lab/blob/master/figs/view.png)
