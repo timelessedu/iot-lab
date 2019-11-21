@@ -8,6 +8,9 @@ const BUTTON_SERVICE_UUID          = 'e95d9882-251d-470a-a062-fa1922dfa9a8';
 const BUTTON_A_CHARACTERISTIC_UUID = 'e95dda90-251d-470a-a062-fa1922dfa9a8';
 const BUTTON_B_CHARACTERISTIC_UUID = 'e95dda91-251d-470a-a062-fa1922dfa9a8';
 
+// UARTサービス
+const UART_SERVICE_UUID            = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+const RX_CHARACTERRISTIC_UUID      = '6e400002-b5a3-f393-e0a9-e50e24dcca9e';
 
 
 let microbit = null;
@@ -18,6 +21,8 @@ let accelY = null;
 let accelZ = null;
 let buttonA = false;
 let rgb = null;
+let id = "01";          //  電球のID
+
 
 //ボタンに応じて操作
 function onClickStartButton() {
@@ -43,12 +48,14 @@ function onClickStopButton() {
 function sendCommand(param)
 {
   //var url = "https://api.github.com/zen"
-  var url = 'http://172.29.16.10/api/v1/'  // for Hiroshima Kokusai Gakuin
-  var bulbPrefix = "bulbs/HUE40"
-  var id = "01"
+  var url = 'http://172.29.16.10/api/v1/';  // for Hiroshima Kokusai Gakuin
+  var bulbPrefix = "bulbs/HUE40";
   var api = url + bulbPrefix + id + '/statuses';
 
   var xhr = new XMLHttpRequest();
+
+  console.log("API: " + api);
+
   //xhr.onreadystatechange = handleStateChange; // Implemented elsewhere.
   xhr.open("PUT", api, true);
   xhr.setRequestHeader('Content-Type', 'application/json')
@@ -63,6 +70,7 @@ function sendCommand(param)
     }
   };
   var json = JSON.stringify(makeCommand(param));
+  console.log(json);
   xhr.send(json);
 }
 
@@ -74,10 +82,10 @@ function drawSensor()
   timer = setInterval(function()
 	{
     document.body.style.backgroundColor = rgb;
-    $('#ValueRGB').html(rgb);
-    $('#ValueX').html(accelX);
-    $('#ValueY').html(accelY);
-    $('#ValueZ').html(accelZ);
+    $('#ValueRGB').html('RGB:'+rgb);
+    $('#ValueX').html('x軸:'+accelX);
+    $('#ValueY').html('y軸:'+accelY);
+    $('#ValueZ').html('z軸:'+accelZ);
     $('.buttonB').html("<p></p>");
     //$('.block').html("<p>" + rgb + "</p>");
   }, 1000);
@@ -106,7 +114,7 @@ function connect()
 		filters: [{
 			namePrefix: 'BBC micro:bit',
 		}],
-		optionalServices: [ACCELEROMETER_SERVICE_UUID, BUTTON_SERVICE_UUID]
+		optionalServices: [ACCELEROMETER_SERVICE_UUID, BUTTON_SERVICE_UUID, UART_SERVICE_UUID]
 	})
 	// デバイス接続する
 	.then(device => {
@@ -114,11 +122,12 @@ function connect()
 		microbit = device;
 		return device.gatt.connect();
 	})
-	// 加速度センササービスを取得する
+	// 加速度センサ、ボタン、UARTサービスを取得する
 	.then(server => {
 		console.log(server.getPrimaryService(BUTTON_SERVICE_UUID));
 		return Promise.all([server.getPrimaryService(ACCELEROMETER_SERVICE_UUID),
-      server.getPrimaryService(BUTTON_SERVICE_UUID)
+      server.getPrimaryService(BUTTON_SERVICE_UUID),
+      server.getPrimaryService(UART_SERVICE_UUID)
     ]);
 	})
 	// キャラクタリスティックを取得する
@@ -126,10 +135,11 @@ function connect()
 		console.log(service);
 		return Promise.all([service[0].getCharacteristic(ACCELEROMETER_CHARACTERISTICS_UUID),
       service[1].getCharacteristic(BUTTON_A_CHARACTERISTIC_UUID),
-      service[1].getCharacteristic(BUTTON_B_CHARACTERISTIC_UUID)
+      service[1].getCharacteristic(BUTTON_B_CHARACTERISTIC_UUID),
+      service[2].getCharacteristic(RX_CHARACTERRISTIC_UUID)
     ]);
 	})
-	// 加速度が変化したら指定したメソッドを呼び出す
+	// 加速度、ボタンの状態が変化したら指定したメソッドを呼び出す
 	.then(chara => {
 		console.log(chara);
 		chara[0].startNotifications();
@@ -141,7 +151,11 @@ function connect()
     chara[2].startNotifications();
     chara[2].addEventListener('characteristicvaluechanged', changeBBtnEvent);
 
+    chara[3].startNotifications();
+    chara[3].addEventListener('characteristicvaluechanged', changeRxEvent);
+
 		// 描画スタート
+    console.log('drawSensor')
 		drawSensor();
 	})
 	.catch(error => {
@@ -253,4 +267,19 @@ function changeBBtnEvent(evnet) {
 function showModal(message) {
   $("#modal-message").html(message);
   $("#myModal").modal("show");
+}
+
+//  DataView to string
+function ab2str(buf) {
+  var str1 = String.fromCharCode(buf.getInt8(0))
+  var str2 = String.fromCharCode(buf.getInt8(1))
+  return str1 + str2;
+}
+
+// UARTのデータを受診したとき
+function changeRxEvent(event) {
+  id = ab2str(event.currentTarget.value);   //  送信されたIDを取得する
+
+  console.log("ID = %s", id)
+  $('#bulbnum').html('電球番号:'+id);
 }
