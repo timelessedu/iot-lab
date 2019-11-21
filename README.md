@@ -48,3 +48,5 @@ chrome://flags/#enable-experimental-web-platform-features
 2. 接続するとmicrobitの向きによって画面の色が変わります。Micro:bit をふると電球番号が設定されます。また、Aボタンを押すとライト（初期設定は1番）をオンオフできます。Bボタンを押すと画面の色に近い色のランプに色が変わります。
 
 ![exec](https://github.com/timelessedu/iot-lab/blob/master/figs/view.png)
+
+![exec](https://github.com/timelessedu/iot-lab/blob/master/figs/view2.png)
